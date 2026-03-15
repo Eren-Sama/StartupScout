@@ -40,7 +40,7 @@ class F6SCrawler(BaseCrawler):
         for page_url in pages_to_check:
             try:
                 async with self._browser.new_page() as page:
-                    await page.goto(page_url, wait_until="networkidle", timeout=30000)
+                    await page.goto(page_url, wait_until="domcontentloaded", timeout=30000)
                     await scroll_to_bottom(page, max_scrolls=8, wait_ms=2000)
 
                     html = await page.content()

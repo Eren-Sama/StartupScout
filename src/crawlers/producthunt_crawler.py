@@ -35,7 +35,7 @@ class ProductHuntCrawler(BaseCrawler):
             try:
                 async with self._browser.new_page() as page:
                     url = f"{self.base_url}/topics/{category}"
-                    await page.goto(url, wait_until="networkidle", timeout=30000)
+                    await page.goto(url, wait_until="domcontentloaded", timeout=30000)
                     await scroll_to_bottom(page, max_scrolls=10, wait_ms=2000)
 
                     html = await page.content()

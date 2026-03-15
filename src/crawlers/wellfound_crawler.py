@@ -37,7 +37,7 @@ class WellfoundCrawler(BaseCrawler):
             try:
                 async with self._browser.new_page() as page:
                     url = f"{self.base_url}/startups?page={page_num}"
-                    await page.goto(url, wait_until="networkidle", timeout=30000)
+                    await page.goto(url, wait_until="domcontentloaded", timeout=30000)
                     await scroll_to_bottom(page, max_scrolls=5, wait_ms=2000)
 
                     html = await page.content()
@@ -72,7 +72,7 @@ class WellfoundCrawler(BaseCrawler):
         """Extract startup details from Wellfound company page."""
         try:
             async with self._browser.new_page() as page:
-                await page.goto(url, wait_until="networkidle", timeout=30000)
+                await page.goto(url, wait_until="domcontentloaded", timeout=30000)
                 html = await page.content()
 
             soup = BeautifulSoup(html, "lxml")
