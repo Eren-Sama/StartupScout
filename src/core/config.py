@@ -41,12 +41,7 @@ class AlgoliaSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="YC_ALGOLIA_")
 
     app_id: str = "45BWZJ1SGC"
-    api_key: SecretStr = SecretStr(
-        "NzllNTY5MzJiZGM2OTY2ZTQwMDEzOTNhYWZiZGRjODlhYzVkNjBmOGRjNzJiMWM4"
-        "ZTU0ZDlhYTZjOTJiMjlhMWFuYWx5dGljc1RhZ3M9eWNkYyZyZXN0cmljdEluZGlj"
-        "ZXM9WUNDb21wYW55X3Byb2R1Y3Rpb24lMkNZQ0NvbXBhbnlfQnlfTGF1bmNoX0Rh"
-        "dGVfcHJvZHVjdGlvbiZ0YWdGaWx0ZXJzPSU1QiUyMnljZGNfcHVibGljJTIyJTVE"
-    )
+    api_key: SecretStr = SecretStr("")
     url: str = "https://45bwzj1sgc-dsn.algolia.net/1/indexes/*/queries"
 
 

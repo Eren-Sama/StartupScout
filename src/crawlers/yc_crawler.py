@@ -38,6 +38,10 @@ class YCCrawler(BaseCrawler):
         app_id = settings.algolia.app_id
         api_key = settings.algolia.api_key.get_secret_value()
 
+        if not api_key:
+            logger.warning("yc.missing_credentials", reason="YC_ALGOLIA_API_KEY not set in .env")
+            return []
+
         async with httpx.AsyncClient(timeout=30) as client:
             while True:
                 try:
