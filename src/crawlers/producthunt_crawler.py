@@ -35,7 +35,11 @@ class ProductHuntCrawler(BaseCrawler):
             try:
                 async with self._browser.new_page() as page:
                     url = f"{self.base_url}/topics/{category}"
-                    await page.goto(url, wait_until="domcontentloaded", timeout=30000)
+                    try:
+                        await page.goto(url, wait_until="load", timeout=15000)
+                        await page.wait_for_timeout(2000)
+                    except Exception as goto_err:
+                        logger.debug("ph_goto_timeout", warn=str(goto_err))
                     await scroll_to_bottom(page, max_scrolls=10, wait_ms=2000)
 
                     html = await page.content()
@@ -61,7 +65,11 @@ class ProductHuntCrawler(BaseCrawler):
         """Extract product details from a Product Hunt product page."""
         try:
             async with self._browser.new_page() as page:
-                await page.goto(url, wait_until="networkidle", timeout=30000)
+                try:
+                    await page.goto(url, wait_until="load", timeout=15000)
+                    await page.wait_for_timeout(2000)
+                except Exception as ex:
+                    logger.debug("ph_goto_profile_timeout", warn=str(ex))
                 html = await page.content()
 
             soup = BeautifulSoup(html, "lxml")

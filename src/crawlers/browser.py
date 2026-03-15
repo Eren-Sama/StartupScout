@@ -8,6 +8,9 @@ from typing import AsyncGenerator, Optional
 
 from playwright.async_api import Browser, BrowserContext, Page, async_playwright
 
+from playwright.async_api import Browser, BrowserContext, Page, async_playwright
+from playwright_stealth import stealth_async
+
 from src.core.logging import get_logger
 
 logger = get_logger(__name__)
@@ -80,6 +83,7 @@ class BrowserManager:
         """Create a new page with stealth context."""
         async with self.new_context() as ctx:
             page = await ctx.new_page()
+            await stealth_async(page)
             try:
                 yield page
             finally:

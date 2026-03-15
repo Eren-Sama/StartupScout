@@ -40,8 +40,11 @@ class F6SCrawler(BaseCrawler):
         for page_url in pages_to_check:
             try:
                 async with self._browser.new_page() as page:
-                    await page.goto(page_url, wait_until="domcontentloaded", timeout=30000)
-                    await page.wait_for_timeout(3000)
+                    try:
+                        await page.goto(page_url, wait_until="load", timeout=15000)
+                        await page.wait_for_timeout(2000)
+                    except Exception as goto_err:
+                        logger.debug("f6s_goto_timeout", warn=str(goto_err))
                     await scroll_to_bottom(page, max_scrolls=8, wait_ms=2000)
 
                     html = await page.content()
@@ -56,6 +59,8 @@ class F6SCrawler(BaseCrawler):
                             and not href.startswith("/deals")
                             and not href.startswith("/jobs")
                             and not href.startswith("/events")
+                            and not href.startswith("/terms")
+                            and not href.endswith("-policy")
                             and "/" not in href[1:]
                             and len(href) > 2
                         ):
@@ -77,7 +82,11 @@ class F6SCrawler(BaseCrawler):
         """Extract startup info from F6S profile page."""
         try:
             async with self._browser.new_page() as page:
-                await page.goto(url, wait_until="networkidle", timeout=30000)
+                try:
+                    await page.goto(url, wait_until="load", timeout=15000)
+                    await page.wait_for_timeout(2000)
+                except Exception as ex:
+                    logger.debug("f6s_goto_profile_timeout", warn=str(ex))
                 html = await page.content()
 
             soup = BeautifulSoup(html, "lxml")
