@@ -42,7 +42,15 @@ playwright install chromium
 # 4. Copy the environment variables file
 cp .env.example .env
 ```
-*(Optional: Open the `.env` file and add your `GROQ_API_KEY` to enable the AI features.)*
+
+### Getting Your API Keys
+
+- **Groq API Key (Optional):** Used for AI enrichment. Get it for free at [console.groq.com](https://console.groq.com).
+- **YC Algolia API Key (Required for YC Scraper):** Y Combinator uses a public Algolia search key on their website. To find it:
+  1. Go to [ycombinator.com/companies](https://www.ycombinator.com/companies)
+  2. Open your browser's Developer Tools (F12) -> **Network** tab
+  3. Search for a company, and look for a network request to `algolia.net`
+  4. Look at the **Headers** of that request. You will see `x-algolia-api-key` and `x-algolia-application-id`. Copy those into your `.env` file!
 
 ## How to Use It
 
