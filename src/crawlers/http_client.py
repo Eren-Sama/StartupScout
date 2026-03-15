@@ -87,7 +87,7 @@ class HttpClient:
             self._client = httpx.AsyncClient(
                 timeout=httpx.Timeout(settings.crawler.timeout, connect=10.0),
                 follow_redirects=True,
-                http2=True,
+                http2=False,  # Disabled to circumvent Cloudflare HTTP/2 fingerprinting returning 404
                 limits=httpx.Limits(
                     max_connections=settings.crawler.concurrency * 2,
                     max_keepalive_connections=settings.crawler.concurrency,
